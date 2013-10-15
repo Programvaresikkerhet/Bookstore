@@ -8,7 +8,7 @@
         <c:otherwise>
             <h2>${book.title.name}</h2>
             <div>
-                <ul>
+                <ul id="bookInformation" style="list-style-type: none")>
                     <li>
                         <b>Authors:</b> 
                         <c:forEach items="${book.author}" var="author" varStatus="it">
