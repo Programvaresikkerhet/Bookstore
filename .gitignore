@@ -1,0 +1,10 @@
+.*
+!/.gitignore
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.class
+
+/build
