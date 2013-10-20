@@ -25,11 +25,19 @@
             <div>
                 ${book.description}
             </div>
-            <div>
                 <form action="addBookToCart.do" method="post">
                     <input type="hidden" name="isbn" value="${book.isbn13}" />
                     <input type="text" name="quantity" value="1" />
                     <input type="submit" value="Add to cart" />
+                </form>
+                
+                <form method=post>
+                	<select>
+                		<option>"Select booklist"</option>
+ 						<c:forEach items="${booklist}" var="list">
+    						<option>"${list.title}"</option>
+						</c:forEach>
+					</select>               
                 </form>
             </div>
         </c:otherwise>
