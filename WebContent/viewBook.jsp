@@ -8,7 +8,7 @@
         <c:otherwise>
             <h2>${book.title.name}</h2>
             <div>
-                <ul>
+                <ul id="bookInformation" style="list-style-type: none")>
                     <li>
                         <b>Authors:</b> 
                         <c:forEach items="${book.author}" var="author" varStatus="it">
@@ -31,7 +31,16 @@
                     <input type="text" name="quantity" value="1" />
                     <input type="submit" value="Add to cart" />
                 </form>
-            </div>
+<               
+                <form method=post>
+                	<select>
+                		<option>"Select booklist"</option>
+ 						<c:forEach items="${booklist}" var="list">
+    						<option>"${list.title}"</option>
+						</c:forEach>
+					</select>               
+                </form>
+>           </div>
         </c:otherwise>
     </c:choose>
 </div>
