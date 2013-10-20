@@ -33,11 +33,12 @@
                 
                 <form method=post>
                 	<select>
-                		<option>"Select booklist"</option>
+                		<option>Select booklist</option>
  						<c:forEach items="${booklist}" var="list">
     						<option>"${list.title}"</option>
 						</c:forEach>
-					</select>               
+					</select>
+					<input type="submit" value="Add to booklist"/>               
                 </form>
             </div>
         </c:otherwise>
