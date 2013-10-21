@@ -1,11 +1,51 @@
 package amu.model;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
 public class Validation {
+	
+	private String issues = "";
 	
 	private static int PASSWORD_LENGTH = 8;
 	
-	public boolean validate(String password){
-		return (hasCorrectLength(password) && hasUpperCase(password) && hasDigit(password));
+	public boolean validatePassword(String password){
+		boolean isValid = true;
+		if(password == "" || password == null || password.isEmpty()){
+			isValid = false;
+		} else{
+			if((password.length() < PASSWORD_LENGTH)){
+				issues += "The password must be at least " + PASSWORD_LENGTH + " characters long.";
+				isValid = false;
+			}
+			if(!hasUpperCase(password)){
+				issues += "\nThe password must have at least one uppercase letter.";
+				isValid = false;
+			}
+			if(!hasDigit(password)){
+				issues += "\nThe password must have at least one digit.";
+				isValid = false;
+			}
+		}
+		return isValid;
+	}
+	
+	
+	public boolean validateEmail(String email){
+		boolean isValid = true;
+		try{
+			InternetAddress emailAddress = new InternetAddress(email);
+			emailAddress.validate();
+		} catch (AddressException e){
+			isValid = false;
+		}
+		return isValid;
+		
+	}
+	
+	
+	public String getIssues(){
+		return this.issues;
 	}
 	
 	public boolean hasCorrectLength(String password){
