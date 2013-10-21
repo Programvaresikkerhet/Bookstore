@@ -70,4 +70,34 @@ public class BooklistDAO {
 		
 		return booklist;
 	}
+	
+	public boolean addBooklist(String title, String description, Customer customer){
+		PreparedStatement statement = null;
+		Connection connection = Database.getConnection();
+
+		try{
+			
+			String query = "INSERT INTO list (title, description) VALUES('"+ title +"' , '"+ description+"');";
+			
+			statement = connection.prepareStatement(query);
+			
+			
+			if(statement.executeUpdate()>0){
+				String query2 = "INSERT INTO list_x_customer (id_list, id_customer) VALUES (LAST_INSERT_ID()," + customer.getId() +");";
+				statement.close();
+				statement = connection.prepareStatement(query2);
+				if(statement.executeUpdate()>0){
+					return true;
+				}		
+			}
+		}
+		catch(SQLException exception){
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, exception);
+		}
+		finally{
+			Database.close(connection, statement);
+		}
+		
+		return false;
+	}
 }

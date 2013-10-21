@@ -1,15 +1,31 @@
 <div class="container">
     <h1>My Booklists</h1>
-    
-    <c:forEach items="" var="item">
-    	
-    </c:forEach>
-    
-    
-    <form>
-    	<h3>Make a title:</h3>
-    	<input type="text"/>
-    	<h3>Make a description:</h3>
-    	<input type="text"/>
-    </form>
+    <c:choose>
+    	<c:when test="${empty customer}">
+            <h2>Book not found!</h2>
+            <div class = "index-item"><a href="debug/list_books.jsp">List books</a></div>
+        </c:when>
+        <c:otherwise>
+	    
+	    	<form action="viewBooklist" method="post">
+	    	<ul style="list-style-type: none">
+	    		<c:forEach items="${booklist}" var="item">
+	    			<li><p>${item.title} -  ${item.description}</p> </li>
+	    		</c:forEach>
+	    	 </ul>
+	    	</form>
+	    	
+	    	<br>
+	    	<hr>
+	    	<br>
+	    	
+	    	<form action="addBooklist.do" method="post">
+	    		<input placeholder="Title" name="booklistTitle" type="text" style="width: 35%;"></input>
+	    		<br>
+	    		<textarea name="booklistDescription" rows="10" cols="50"></textarea>
+	    		<br>
+	    		<input type="submit" value="Add booklist"/>
+	    	</form>
+	   </c:otherwise>
+	</c:choose>
 </div>

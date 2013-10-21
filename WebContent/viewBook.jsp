@@ -33,24 +33,25 @@
                 </form>
 
                 <c:choose>
-                    <c:when test="${empty customer}">
-    	               <p>Login to add book to boolist</p>
+                    <c:when test="${not empty customer}">
+    	               <form action="addToBooklist.do" method="post">
+		                    <input type="hidden" name="isbn" value="${book.isbn13}" />
+		                
+		                    <select name="selectedBooklist">
+		                	    <option selected>Select booklist</option>
+		 					    <c:forEach items="${booklist}" var="list">
+		    					    <option value="${list.id}">"${list.title}"</option>
+							    </c:forEach>
+						    </select>
+						    <input type="submit" value="Add to booklist"/>               
+		                </form>
                     </c:when>
                 
                     <c:otherwise>
-                    <form action="addToBooklist.do" method="post">
-	                    <input type="hidden" name="isbn" value="${book.isbn13}" />
-	                
-	                    <select name="selectedBooklist">
-	                	    <option selected>Select booklist</option>
-	 					    <c:forEach items="${booklist}" var="list">
-	    					    <option value="${list.id}">"${list.title}"</option>
-						    </c:forEach>
-					    </select>
-					    <input type="submit" value="Add to booklist"/>               
-	                </form>
+	                    <p>Login to add book to booklist</p>
                     </c:otherwise>
                </c:choose> 
         </c:otherwise>
     </c:choose>
 </div>
+
