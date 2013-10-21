@@ -18,11 +18,11 @@ public class BookDAO {
         try {
             connection = Database.getConnection();
             
-            //Changed Statement to PreparedStatement, makes everything safer
             String query = "SELECT * FROM book, publisher, title "
             		+ "WHERE book.isbn13 = ? "
             		+ "AND book.title_id = title.id "
             		+ "AND book.publisher_id = publisher_id;";
+            
             statement = connection.prepareStatement(query);
             
             statement.setString(1, isbn);

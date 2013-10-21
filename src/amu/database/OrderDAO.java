@@ -55,7 +55,7 @@ public class OrderDAO {
         try {
             connection = Database.getConnection();
 
-            String query = "INSERT INTO `order` (customer_id, address_id, created, value, status) VALUES (?, ?, CURDATE(), ?, ?)";
+            String query = "INSERT INTO 'sorder' (customer_id, address_id, created, value, status) VALUES (?, ?, CURDATE(), ?, ?)";
             statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, order.getCustomer().getId());
             statement.setInt(2, order.getAddress().getId());
