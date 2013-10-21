@@ -1,8 +1,6 @@
 package amu.action;
 
-import amu.database.AddressDAO;
 import amu.database.CreditCardDAO;
-import amu.model.Address;
 import amu.model.Cart;
 import amu.model.CreditCard;
 import amu.model.Customer;

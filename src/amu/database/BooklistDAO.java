@@ -12,7 +12,31 @@ import amu.model.*;
 
 public class BooklistDAO {
 	
-	
+	public boolean addBookToList(int bookId, int listId){
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		
+		
+		try{
+			connection = Database.getConnection();
+			String query = "INSERT INTO book_x_list(book_id, list_id) VALUES('"
+					+ bookId + "', '" + listId + "');";
+			statement = connection.prepareStatement(query);
+			
+			if (statement.executeUpdate() > 0) {
+                return true;
+            }
+		}
+		catch(SQLException exception){
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, exception);
+		}
+		finally{
+			Database.close(connection, statement);
+		}
+		
+		return false;
+	}
 	public List<Booklist> findBooklistByCustomer(Customer cust){
 		List<Booklist> booklist = new ArrayList<Booklist>();
 		

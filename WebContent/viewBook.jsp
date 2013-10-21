@@ -8,7 +8,7 @@
         <c:otherwise>
             <h2>${book.title.name}</h2>
             <div>
-                <ul id="bookInformation" style="list-style-type: none")>
+                <ul id="bookInformation" style="list-style-type: none">
                     <li>
                         <b>Authors:</b> 
                         <c:forEach items="${book.author}" var="author" varStatus="it">
@@ -25,22 +25,32 @@
             <div>
                 ${book.description}
             </div>
-            <div>
+            
                 <form action="addBookToCart.do" method="post">
                     <input type="hidden" name="isbn" value="${book.isbn13}" />
                     <input type="text" name="quantity" value="1" />
                     <input type="submit" value="Add to cart" />
                 </form>
-<               
-                <form method=post>
-                	<select>
-                		<option>"Select booklist"</option>
- 						<c:forEach items="${booklist}" var="list">
-    						<option>"${list.title}"</option>
-						</c:forEach>
-					</select>               
-                </form>
->           </div>
+
+                <c:choose>
+                    <c:when test="${empty customer}">
+    	               <p>Login to add book to boolist</p>
+                    </c:when>
+                
+                    <c:otherwise>
+                    <form action="addToBooklist.do" method="post">
+	                    <input type="hidden" name="isbn" value="${book.isbn13}" />
+	                
+	                    <select name="selectedBooklist">
+	                	    <option selected>Select booklist</option>
+	 					    <c:forEach items="${booklist}" var="list">
+	    					    <option value="${list.id}">"${list.title}"</option>
+						    </c:forEach>
+					    </select>
+					    <input type="submit" value="Add to booklist"/>               
+	                </form>
+                    </c:otherwise>
+               </c:choose> 
         </c:otherwise>
     </c:choose>
 </div>
