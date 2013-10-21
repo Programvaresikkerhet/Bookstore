@@ -21,7 +21,7 @@ public class BooklistDAO {
 		try{
 			connection = Database.getConnection();
 			String query = "INSERT INTO book_x_list(book_id, list_id) VALUES('"
-					+ bookId + "', '" + listId + "')";
+					+ bookId + "', '" + listId + "');";
 			statement = connection.prepareStatement(query);
 			
 			if (statement.executeUpdate() > 0) {

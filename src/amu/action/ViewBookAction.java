@@ -1,6 +1,5 @@
 package amu.action;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import amu.database.BookDAO;
@@ -18,8 +17,9 @@ class ViewBookAction implements Action {
     @Override
     public ActionResponse execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
     	
-    	HttpSession session = request.getSession(true);
+    	HttpSession session = request.getSession();
         Customer customer = (Customer) session.getAttribute("customer");
+        ActionResponse actionResponse = new ActionResponse(ActionResponseType.FORWARD, "viewBook");
     	
         BookDAO bookDAO = new BookDAO();
         Book book = bookDAO.findByISBN(request.getParameter("isbn"));
@@ -28,10 +28,16 @@ class ViewBookAction implements Action {
         List<Booklist> list = booklistDAO.findBooklistByCustomer(customer);
         
         if(book != null) {
-            request.setAttribute("book", book);
-            request.setAttribute("booklist", list);
+        	actionResponse.addParameter("isbn", request.getParameter("isbn"));
+            session.setAttribute("book", book);
+            session.setAttribute("booklist", list);
         }
         
-        return new ActionResponse(ActionResponseType.FORWARD, "viewBook");
+        if(customer != null){
+            session.setAttribute("customer", customer);
+        }
+        
+        
+        return actionResponse;
     }
 }
