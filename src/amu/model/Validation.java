@@ -13,15 +13,17 @@ public class Validation {
 		boolean isValid = true;
 		if(password == "" || password == null || password.isEmpty()){
 			isValid = false;
-		} else if(!hasCorrectLength(password)){
-
-			issues += "Password must be at least " + PASSWORD_LENGTH + " characters long. ";
+		}
+		if(!hasCorrectLength(password)){
+			issues += "Password must be at least " + PASSWORD_LENGTH + " characters long.\n";
 			isValid = false;
-		} else if(!hasUpperCase(password)){
-			issues += "Password must contain at least one uppercase letter. ";
+		}
+		if(!hasUpperCase(password)){
+			issues += "Password must contain at least one uppercase letter.\n";
 			isValid = false;
-		} else if(!hasDigit(password)){
-			issues += "Password must contain at least one digit. ";
+		}
+		if(!hasDigit(password)){
+			issues += "Password must contain at least one digit.";
 			isValid = false;
 		}
 		return isValid;

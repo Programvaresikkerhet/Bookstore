@@ -32,7 +32,7 @@ class RegisterCustomerAction extends HttpServlet implements Action {
             		
             		String email = request.getParameter("email");
             		if(!Validation.validateEmail(email)){
-            			messages.add("Please enter a valid e-mail address.");
+            			messages.add("Please enter a valid e-mail address.\n");
             			return new ActionResponse(ActionResponseType.FORWARD, "registerCustomer");
             		}
 	                
