@@ -14,6 +14,13 @@
                             ${register_error}
                         </div>
                     </c:if>
+                    
+                    <c:if test="${not empty messages}">
+                   		<c:forEach var="message" items="${messages}">
+            				<div><span class="error">${message}</span></div>
+            			</c:forEach>
+        			</c:if>
+                    
                     <div class="general-form">
                         <form action="registerCustomer.do" method="post">
                             <table class="general-table">
