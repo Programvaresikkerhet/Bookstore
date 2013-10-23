@@ -1,15 +1,36 @@
 <div class="container">
     <h1>My Booklists</h1>
-    
-    <c:forEach items="" var="item">
-    	
-    </c:forEach>
-    
-    
-    <form>
-    	<h3>Make a title:</h3>
-    	<input type="text"/>
-    	<h3>Make a description:</h3>
-    	<input type="text"/>
-    </form>
+    <c:choose>
+    	<c:when test="${empty booklist}">
+            <h2>There is booklists!</h2>
+        </c:when>
+        <c:otherwise> 
+	    	<form action="viewBooklist.do" method="get">
+	    	<ul style="list-style-type: none">
+	    		<c:forEach items="${booklist}" var="item">
+	    			<li><a href='viewBooklist.do?id=${item.id}'>${item.title}</a></li>
+	    		</c:forEach>
+	    	 </ul>
+	    	</form>
+	    	
+	    	<br>
+	    	<hr>
+	    	<br>
+	    </c:otherwise>
+	    </c:choose>
+	    <c:choose>	
+	    <c:when test="${not empty customer}">	
+	    	<form action="addBooklist.do" method="post">
+	    		<input placeholder="Title" name="booklistTitle" type="text" style="width: 35%;"></input>
+	    		<br>
+	    		<textarea name="booklistDescription" rows="10" cols="50"></textarea>
+	    		<br>
+	    		<input type="submit" value="Add booklist"/>
+	    	</form>
+	    </c:when>
+	    <c:otherwise>
+	    	<p>Login to add new booklists</p>
+	    </c:otherwise>	
+	    </c:choose>
+	
 </div>

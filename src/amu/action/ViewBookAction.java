@@ -14,26 +14,25 @@ class ViewBookAction implements Action {
 
     @Override
     public ActionResponse execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	HttpSession session = request.getSession();
+
+    	HttpSession session = request.getSession(true);
+
         Customer customer = (Customer) session.getAttribute("customer");
         ActionResponse actionResponse = new ActionResponse(ActionResponseType.FORWARD, "viewBook");
-    	
+        session.setAttribute("customer", customer);
         BookDAO bookDAO = new BookDAO();
         Book book = bookDAO.findByISBN(request.getParameter("isbn"));
-        
-        BooklistDAO booklistDAO = new BooklistDAO();
-        List<Booklist> list = booklistDAO.findBooklistByCustomer(customer);
         
         if(book != null) {
         	actionResponse.addParameter("isbn", request.getParameter("isbn"));
             session.setAttribute("book", book);
-            session.setAttribute("booklist", list);
+            
         }
-        
         if(customer != null){
-            session.setAttribute("customer", customer);
+        	BooklistDAO booklistDAO = new BooklistDAO();
+        	List<Booklist> list = booklistDAO.findBooklistByCustomer(customer);
+        	session.setAttribute("booklist", list);     
         }
-        
         
         return actionResponse;
     }

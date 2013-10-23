@@ -24,6 +24,7 @@ class ViewCustomerAction implements Action {
             ActionResponse actionResponse = new ActionResponse(ActionResponseType.REDIRECT, "loginCustomer");
             actionResponse.addParameter("from", "viewCustomer");
             return actionResponse;
+            
         } else {
             CreditCardDAO creditCardDAO = new CreditCardDAO();
             List<CreditCard> creditCards = creditCardDAO.browse(customer);
