@@ -25,6 +25,7 @@ public class ViewBooklistAction implements Action{
         	BooklistDAO booklistDAO = new BooklistDAO();
         	List<Book> books = booklistDAO.findBooksInBooklist(Integer.parseInt(request.getParameter("id")), customer);
         	session.setAttribute("books", books);
+        	
         	return actionResponse;
         }
 		
