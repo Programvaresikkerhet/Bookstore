@@ -12,30 +12,21 @@ public class BookDAO {
         Book book = null;
         
         Connection connection = null;
-        Statement statement = null;
+        PreparedStatement statement = null;
         ResultSet resultSet = null;
         
         try {
             connection = Database.getConnection();
             
-            statement = connection.createStatement();
-            
             String query = "SELECT * FROM book, publisher, title "
-                    + "WHERE book.isbn13 = '"
-                    + isbn + "' "
-                    + "AND book.title_id = title.id "
-                    + "AND book.publisher_id = publisher.id;";
-            resultSet = statement.executeQuery(query);
+            		+ "WHERE book.isbn13 = ? "
+            		+ "AND book.title_id = title.id "
+            		+ "AND book.publisher_id = publisher_id;";
             
-            /*
-            PreparedStatement query = connection.prepareStatement(
-            		"SELECT * FROM book, publisher, title "
-                            + "WHERE book.isbn13 = ?"
-                            + "AND book.title_id = title.id "
-                            + "AND book.publisher_id = publisher.id;");
-                            
-            query.setString(1, isbn);
-            query.executeQuery();*/
+            statement = connection.prepareStatement(query);
+            
+            statement.setString(1, isbn);
+            resultSet = statement.executeQuery();
             
             Logger.getLogger(this.getClass().getName()).log(Level.FINE, "findByISBN SQL Query: " + query);
             

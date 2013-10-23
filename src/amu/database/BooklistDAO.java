@@ -64,9 +64,11 @@ public class BooklistDAO {
 		
 		try{
 			connection = Database.getConnection();
-			String query = "INSERT INTO book_x_list(book_id, list_id) VALUES('"
-					+ bookId + "', '" + listId + "');";
+			String query = "INSERT INTO book_x_list(book_id, list_id) VALUES(?, ?);";
 			statement = connection.prepareStatement(query);
+			
+			statement.setInt(1, bookId);
+			statement.setInt(2, listId);
 			
 			if (statement.executeUpdate() > 0) {
                 return true;

@@ -13,20 +13,24 @@ public class AuthorDAO {
         List<Author> authors = new ArrayList<Author>();
         
         Connection connection = null;
-        Statement statement = null;
+        PreparedStatement statement = null;
         ResultSet resultSet = null;
         
         try {
             connection = Database.getConnection();
-            statement = connection.createStatement();
             
             String query = "SELECT "
                     + "author.id, "
                     + "author.name "
                     + "FROM author, author_x_book "
-                    + "WHERE author_x_book.book_id=" + bookID + " "
+                    + "WHERE author_x_book.book_id=? "
                     + "AND author.id = author_x_book.author_id";
-            resultSet = statement.executeQuery(query);
+            
+            statement = connection.prepareStatement(query);
+            
+            statement.setInt(1, bookID);
+            resultSet = statement.executeQuery();
+            
             Logger.getLogger(this.getClass().getName()).log(Level.FINE, "findByBookID SQL Query: " + query);
             
             while (resultSet.next()) {

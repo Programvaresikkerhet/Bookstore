@@ -14,13 +14,14 @@ public class Validation {
 		if(password == "" || password == null || password.isEmpty()){
 			isValid = false;
 		} else if(!hasCorrectLength(password)){
-			issues += "Password must be at least " + PASSWORD_LENGTH + " characters long.\n";
+
+			issues += "Password must be at least " + PASSWORD_LENGTH + " characters long. ";
 			isValid = false;
 		} else if(!hasUpperCase(password)){
-			issues += "Password must contain at least one uppercase letter.\n";
+			issues += "Password must contain at least one uppercase letter. ";
 			isValid = false;
 		} else if(!hasDigit(password)){
-			issues += "Password must contain at least one digit.";
+			issues += "Password must contain at least one digit. ";
 			isValid = false;
 		}
 		return isValid;
