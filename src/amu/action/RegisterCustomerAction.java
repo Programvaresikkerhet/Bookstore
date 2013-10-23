@@ -1,8 +1,14 @@
 package amu.action;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import amu.Mailer;
 import amu.database.CustomerDAO;
 import amu.model.Customer;
+import amu.model.Validation;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,28 +23,44 @@ class RegisterCustomerAction extends HttpServlet implements Action {
             CustomerDAO customerDAO = new CustomerDAO();
             Customer customer = customerDAO.findByEmail(request.getParameter("email"));
 
+            ArrayList<String> messages = new ArrayList<String>();
+            request.setAttribute("messages", messages);
+            
             if (customer == null) {
-                customer = new Customer();
-                customer.setEmail(request.getParameter("email"));
-                customer.setName(request.getParameter("name"));
-                customer.setPassword(CustomerDAO.hashPassword(request.getParameter("password")));
-                customer.setActivationToken(CustomerDAO.generateActivationCode());
-                customer = customerDAO.register(customer);
-                
-                ActionResponse actionResponse = new ActionResponse(ActionResponseType.REDIRECT, "activateCustomer");
-                actionResponse.addParameter("email", customer.getEmail());
-                
-                StringBuilder sb = new StringBuilder();
-                sb.append("Welcome to Amu-Darya, the really insecure bookstore!\n\n");
-                sb.append("To activate your account, click <a href='http://");
-                sb.append(request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/");
-                sb.append(actionResponse.getURL() + actionResponse.getParameterString());
-                sb.append("&activationToken=" + customer.getActivationToken());
-                sb.append("'>here</a>, or use this activation code: " + customer.getActivationToken());
-               
-                Mailer.send(customer.getEmail(), "Activation required", sb.toString());
+            	if(Validation.validatePassword(request.getParameter("password"))){
+            		customer = new Customer();
+            		
+            		String email = request.getParameter("email");
+            		if(!Validation.validateEmail(email)){
+            			messages.add("Please enter a valid e-mail address.");
+            			return new ActionResponse(ActionResponseType.FORWARD, "registerCustomer");
+            		}
+	                
+	                customer.setEmail(request.getParameter("email"));
+	                customer.setName(request.getParameter("name"));
+	                customer.setActivationToken(CustomerDAO.generateActivationCode());
+	                customer = customerDAO.register(customer);
+	                
+	                customer.setPassword(CustomerDAO.hashPassword(request.getParameter("password")));
+	                
+	                ActionResponse actionResponse = new ActionResponse(ActionResponseType.REDIRECT, "activateCustomer");
+	                actionResponse.addParameter("email", customer.getEmail());
+	                
+	                StringBuilder sb = new StringBuilder();
+	                sb.append("Welcome to Amu-Darya, the really apprehensive bookstore!\n\n");
+	                sb.append("To activate your account, click <a href='http://");
+	                sb.append(request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/");
+	                sb.append(actionResponse.getURL() + actionResponse.getParameterString());
+	                sb.append("&activationToken=" + customer.getActivationToken());
+	                sb.append("'>here</a>, or use this activation code: " + customer.getActivationToken());
+	               
+	                Mailer.send(customer.getEmail(), "Activation required", sb.toString());
  
-                return actionResponse;
+	                return actionResponse;
+            	} else{
+            		messages.add(Validation.getIssues());
+            		return new ActionResponse(ActionResponseType.FORWARD, "registerCustomer");
+            	}
             } else {
                 return new ActionResponse(ActionResponseType.REDIRECT, "registrationError");
             }

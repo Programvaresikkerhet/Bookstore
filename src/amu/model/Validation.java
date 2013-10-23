@@ -5,16 +5,31 @@ import javax.mail.internet.InternetAddress;
 
 public class Validation {
 	
+	private static String issues = "";
+	
 	private static int PASSWORD_LENGTH = 8;
 	
 	public static boolean validatePassword(String password){
 		boolean isValid = true;
 		if(password == "" || password == null || password.isEmpty()){
 			isValid = false;
-		} else{
-			isValid = (hasCorrectLength(password) && hasUpperCase(password) && hasDigit(password));
+		} else if(!hasCorrectLength(password)){
+			issues += "Password must be at least " + PASSWORD_LENGTH + " characters long.\n";
+			isValid = false;
+		} else if(!hasUpperCase(password)){
+			issues += "Password must contain at least one uppercase letter.\n";
+			isValid = false;
+		} else if(!hasDigit(password)){
+			issues += "Password must contain at least one digit.";
+			isValid = false;
 		}
 		return isValid;
+	}
+	
+	public static String getIssues(){
+		String _issues = issues;
+		issues = "";
+		return _issues;
 	}
 	
 	
