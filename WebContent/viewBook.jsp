@@ -31,6 +31,12 @@
                     <input type="text" name="quantity" value="1" />
                     <input type="submit" value="Add to cart" />
                 </form>
+                
+                <c:if test="${not empty messages}">
+           			<c:forEach var="message" items="${messages}">
+            			<div><span class="error">${message}</span></div>
+            		</c:forEach>
+       			 </c:if>
 
                 <c:choose>
                     <c:when test="${not empty customer}">

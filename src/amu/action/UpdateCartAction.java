@@ -1,9 +1,12 @@
 package amu.action;
 
+import java.util.ArrayList;
+
 import amu.database.BookDAO;
 import amu.model.Book;
 import amu.model.Cart;
 import amu.model.CartItem;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -27,12 +30,27 @@ class UpdateCartAction implements Action {
         if (isbn != null && quantity != null && isbn.length == quantity.length) {
             
             for (int i = 0; i < isbn.length; i++) {
+            	ArrayList<String> messages = new ArrayList<String>();
+            	session.setAttribute("messages", messages);
+            	
                 CartItem item = cart.getItemByISBN(isbn[i]);
+                
                 if (item == null) {
                     BookDAO bookDAO = new BookDAO();
                     Book book = bookDAO.findByISBN(isbn[i]);
-                    cart.addItem(new CartItem(book, Integer.parseInt(request.getParameter("quantity"))));
+                    int _quantity = Integer.parseInt(request.getParameter("quantity"));
+                    if(_quantity < 0){
+                    	messages.add("Quantity cannot be negative.");
+                    	return new ActionResponse(ActionResponseType.REDIRECT, "viewCart");
+                    }
+                   	cart.addItem(new CartItem(book, _quantity));
                 } else {
+
+                    int newQuantity = Integer.parseInt(request.getParameter(quantity[i]));
+                    if(newQuantity < 0){
+                    	messages.add("Quantity cannot be negative.");
+                    	return new ActionResponse(ActionResponseType.REDIRECT, "viewCart");
+                    }
                     item.setQuantity(Integer.parseInt(quantity[i]));
                     cart.updateItem(item);
                 }
