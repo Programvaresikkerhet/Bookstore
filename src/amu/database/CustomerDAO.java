@@ -16,6 +16,15 @@ public class CustomerDAO {
     public static String hashPassword(String plainTextPassword) {
         String hashedPassword = null;
         try {
+        	
+        	/*
+       		----------------DETTE IMPLEMENTERES SNART----------------
+        	SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+            byte[] bSalt = new byte[8];
+            random.nextBytes(bSalt);
+            */
+        	
+        	
             // Calculate SHA1(password+salt)
             hashedPassword = DatatypeConverter.printHexBinary(MessageDigest.getInstance("SHA1").digest((plainTextPassword + Config.SALT).getBytes()));
         } catch (NoSuchAlgorithmException ex) {
@@ -123,6 +132,7 @@ public class CustomerDAO {
             statement.setString(2, customer.getPassword());
             statement.setString(3, customer.getName());
             statement.setString(4, customer.getActivationToken());
+            //statement.setString(5, customer.getSalt());
             
             statement.executeUpdate();
             Logger.getLogger(this.getClass().getName()).log(Level.FINE, "register SQL Query: " + query);
