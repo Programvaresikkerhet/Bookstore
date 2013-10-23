@@ -25,7 +25,7 @@
             <div>
                 ${book.description}
             </div>
-
+            
                 <form action="addBookToCart.do" method="post">
                     <input type="hidden" name="isbn" value="${book.isbn13}" />
                     <input type="text" name="quantity" value="1" />
