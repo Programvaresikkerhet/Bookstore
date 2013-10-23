@@ -2,10 +2,13 @@ package amu.action;
 
 import amu.database.CustomerDAO;
 import amu.model.Customer;
+import amu.model.Validation;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -32,6 +35,12 @@ class ChangeEmailAction implements Action {
 
             String[] email = request.getParameterValues("email");
             values.put("email", email);
+            
+            //Validate email address
+            if(Validation.validateEmail(email[0]) == false){
+            	messages.add("Please enter a valid email address.");
+            	return new ActionResponse(ActionResponseType.FORWARD, "changeEmail");
+            }
 
             // Validate that new email is typed in the same both times
             if (email[0].equals(email[1]) == false) {
@@ -43,7 +52,7 @@ class ChangeEmailAction implements Action {
             CustomerDAO customerDAO = new CustomerDAO();
             customer.setEmail(email[0]);
             if (customerDAO.edit(customer) == false) {
-                messages.add("DB update unsuccessful, likely there is already a user with this email address.");
+                messages.add("DB update unsuccessful.");
                 return new ActionResponse(ActionResponseType.FORWARD, "changeEmail");
             }
             
