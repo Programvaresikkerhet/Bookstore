@@ -20,6 +20,9 @@ public class Booklist implements Serializable{
 		this.customer = customer;
 		this.list = new ArrayList<Book>();
 	}
+	public Booklist(){
+		
+	}
 
 	public void addBook(Book book){
 		this.list.add(book);
@@ -43,6 +46,18 @@ public class Booklist implements Serializable{
 
 	public List<Book> getBooklist() {
 		return list;
+	}
+	
+	public void setId(int id){
+		this.id = id;
+	}
+	
+	public void setTitle(String title){
+		this.title = title;
+	}
+	
+	public void setDescription(String description){
+		this.description = description;
 	}
 	
 	

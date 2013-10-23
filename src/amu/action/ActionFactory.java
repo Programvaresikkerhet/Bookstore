@@ -24,6 +24,8 @@ public class ActionFactory implements ServletContextListener {
         map.put("viewBook", new ViewBookAction());
         map.put("addToBooklist", new AddBookToBooklistAction());
         map.put("addBooklist", new AddBooklistAction());
+        map.put("viewBooklist", new ViewBooklistAction());
+        map.put("viewBooklists", new ViewBooklistsAction());
         
         // Cart actions
         map.put("addBookToCart", new AddToCartAction());
@@ -54,7 +56,6 @@ public class ActionFactory implements ServletContextListener {
         map.put("changePassword", new ChangePasswordAction());
         map.put("changeEmail", new ChangeEmailAction());
         map.put("changeName", new ChangeNameAction());
-        map.put("viewBooklists", new ViewBooklistAction());
         
         // Customer support
         map.put("customerSupport", new CustomerSupportAction());

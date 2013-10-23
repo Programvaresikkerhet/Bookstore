@@ -28,16 +28,12 @@ class ViewBookAction implements Action {
         	actionResponse.addParameter("isbn", request.getParameter("isbn"));
             session.setAttribute("book", book);
             
-        } 
-        
+        }
         if(customer != null){
         	BooklistDAO booklistDAO = new BooklistDAO();
         	List<Booklist> list = booklistDAO.findBooklistByCustomer(customer);
         	session.setAttribute("booklist", list);     
         }
-        
-        
-         
         
         return actionResponse;
     }
