@@ -1,7 +1,9 @@
 package amu.action;
 
+import amu.Config;
 import amu.Mailer;
 import amu.model.Customer;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -20,7 +22,7 @@ class CustomerSupportAction implements Action {
         }
 
         if (request.getMethod().equals("POST")) {
-            Mailer.send(request.getParameter("department"), 
+            Mailer.send(Config.EMAIL_FROM_ADDR, 
                     request.getParameter("subject"), 
                     request.getParameter("content"), 
                     request.getParameter("fromAddr"), 
