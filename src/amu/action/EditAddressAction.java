@@ -3,8 +3,11 @@ package amu.action;
 import amu.database.AddressDAO;
 import amu.model.Address;
 import amu.model.Customer;
+import amu.model.Validation;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -29,7 +32,7 @@ class EditAddressAction implements Action {
             List<String> messages = new ArrayList<String>();
             request.setAttribute("messages", messages);
 
-            address.setAddress(request.getParameter("address"));
+            address.setAddress(Validation.sanitizeInput(request.getParameter("address")));
             
             if (addressDAO.edit(address)) {
                 return new ActionResponse(ActionResponseType.REDIRECT, "viewCustomer");

@@ -2,8 +2,11 @@ package amu.action;
 
 import amu.database.CustomerDAO;
 import amu.model.Customer;
+import amu.model.Validation;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -26,7 +29,7 @@ class ChangeNameAction implements Action {
             Map<String, String> messages = new HashMap<String, String>();
             request.setAttribute("messages", messages);
 
-            customer.setName(request.getParameter("name"));
+            customer.setName(Validation.sanitizeInput(request.getParameter("name")));
 
             CustomerDAO customerDAO = new CustomerDAO();
             if (customerDAO.edit(customer)) { // Customer name was successfully changed

@@ -9,6 +9,7 @@ public class Validation {
 	
 	private static int PASSWORD_LENGTH = 8;
 	
+	//Start: Validation for RegisterCustomer
 	public static boolean validatePassword(String password){
 		boolean isValid = true;
 		if(password == "" || password == null || password.isEmpty()){
@@ -69,5 +70,11 @@ public class Validation {
 		}
 		return false;
 	}
-
+	//End: Validation for RegisterCustomer
+	
+	//Start: Validation for all input
+	public static String sanitizeInput(String input){
+		return input.replaceAll("\\/$<>*#&|", "");
+		
+	}
 }

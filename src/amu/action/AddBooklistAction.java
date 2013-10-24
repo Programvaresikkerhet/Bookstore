@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import amu.database.BooklistDAO;
 import amu.model.Customer;
+import amu.model.Validation;
 
 public class AddBooklistAction implements Action{
 
@@ -25,8 +26,8 @@ public class AddBooklistAction implements Action{
         	actionResponse = new ActionResponse(ActionResponseType.REDIRECT, "viewBooklists");
         	BooklistDAO boolistDAO = new BooklistDAO();
         	
-        	String title = request.getParameter("booklistTitle");
-        	String description = request.getParameter("booklistDescription");
+        	String title = Validation.sanitizeInput(request.getParameter("booklistTitle"));
+        	String description = Validation.sanitizeInput(request.getParameter("booklistDescription"));
         	
         	boolistDAO.addBooklist(title, description, customer);
         	

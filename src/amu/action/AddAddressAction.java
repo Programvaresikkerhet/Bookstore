@@ -3,10 +3,13 @@ package amu.action;
 import amu.database.AddressDAO;
 import amu.model.Address;
 import amu.model.Customer;
+import amu.model.Validation;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -37,7 +40,7 @@ class AddAddressAction implements Action {
             request.setAttribute("messages", messages);
 
             AddressDAO addressDAO = new AddressDAO();
-            Address address = new Address(customer, request.getParameter("address"));
+            Address address = new Address(customer, Validation.sanitizeInput(request.getParameter("address")));
 
             if (addressDAO.add(address)) {
                 if (ActionFactory.hasKey(request.getParameter("from"))) {

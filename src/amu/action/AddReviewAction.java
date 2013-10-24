@@ -4,6 +4,7 @@ import amu.database.BookDAO;
 import amu.database.ReviewDAO;
 import amu.model.Book;
 import amu.model.Customer;
+import amu.model.Validation;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,11 +22,13 @@ class AddReviewAction implements Action {
             actionResponse.addParameter("from", "viewBook");
             return actionResponse;
         }
+        
+        String reviewText = Validation.sanitizeInput(request.getParameter("review_text"));
 		
-        if (request.getParameter("id") != null && request.getParameter("review_text") != null && request.getParameter("isbn") != null)
+        if (request.getParameter("id") != null && reviewText != null && request.getParameter("isbn") != null)
         {
             ReviewDAO reviewDAO = new ReviewDAO();
-            reviewDAO.addReview(request.getParameter("review_text"), Integer.parseInt(request.getParameter("id")));
+            reviewDAO.addReview(reviewText, Integer.parseInt(request.getParameter("id")));
             
             
             BookDAO bookDAO = new BookDAO();

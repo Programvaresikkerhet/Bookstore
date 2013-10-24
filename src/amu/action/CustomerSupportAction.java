@@ -3,6 +3,7 @@ package amu.action;
 import amu.Config;
 import amu.Mailer;
 import amu.model.Customer;
+import amu.model.Validation;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,13 +21,14 @@ class CustomerSupportAction implements Action {
             actionResponse.addParameter("from", "customerSupport");
             return actionResponse;
         }
+        
+        String subject = Validation.sanitizeInput(request.getParameter("subject"));
+        String content = Validation.sanitizeInput(request.getParameter("content"));
+        String fromAddr = Validation.sanitizeInput(request.getParameter("fromAddr"));
+        String fromName = Validation.sanitizeInput(request.getParameter("fromName"));
 
         if (request.getMethod().equals("POST")) {
-            Mailer.send(Config.EMAIL_FROM_ADDR, 
-                    request.getParameter("subject"), 
-                    request.getParameter("content"), 
-                    request.getParameter("fromAddr"), 
-                    request.getParameter("fromName"));
+            Mailer.send(Config.EMAIL_FROM_ADDR, subject, content, fromAddr, fromName);
             // TODO: Send receipt to customer
             return new ActionResponse(ActionResponseType.REDIRECT, "customerSupportSuccessful");
         } 
