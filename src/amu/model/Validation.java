@@ -75,19 +75,19 @@ public class Validation {
 	//Start: Validation for all input
 	public static String sanitizeInput(String input){
 		if(input != null){
-			input.replace('&', '-');
-			input.replace('\\', '-');
-			input.replace('/', '-');
-			input.replace('|', '-');
-			input.replace('%', '-');
-			input.replace('#', '-');
-			input.replace('{', '-');
-			input.replace('}', '-');
-			input.replace('*', '-');
-			input.replace('|', '-');
-			input.replace('$', '-');
-			input.replace('<', '-');
-			input.replace('>', '-');
+			input = input.replace('&', '-');
+			input = input.replace('\\', '-');
+			input = input.replace('/', '-');
+			input = input.replace('|', '-');
+			input = input.replace('%', '-');
+			input = input.replace('#', '-');
+			input = input.replace('{', '-');
+			input = input.replace('}', '-');
+			input = input.replace('*', '-');
+			input = input.replace('|', '-');
+			input = input.replace('$', '-');
+			input = input.replace('<', '-');
+			input = input.replace('>', '-');
 			return input;
 		} else{
 			return null;
