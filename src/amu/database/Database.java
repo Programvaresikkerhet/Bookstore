@@ -42,7 +42,7 @@ public final class Database {
         }
     }
 
-    public static void close(PreparedStatement statement) {
+    public static void close(Statement statement) {
         if (statement != null) {
             try {
                 statement.close();
@@ -62,13 +62,13 @@ public final class Database {
         }
     }
 
-    public static void close(Connection connection, PreparedStatement statement, ResultSet resultSet) {
+    public static void close(Connection connection, Statement statement, ResultSet resultSet) {
         close(resultSet);
         close(statement);
         close(connection);
     }
     
-    public static void close(Connection connection, PreparedStatement statement) {
+    public static void close(Connection connection, Statement statement) {
         close(statement);
         close(connection);
     }
