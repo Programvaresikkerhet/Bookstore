@@ -75,6 +75,8 @@ public class Validation {
 	//Start: Validation for all input
 	public static String sanitizeInput(String input){
 		if(input != null){
+			input = input.replaceAll("%\\/|#$%{}<>*", " ");
+			/*
 			input = input.replace('&', '-');
 			input = input.replace('\\', '-');
 			input = input.replace('/', '-');
@@ -87,7 +89,7 @@ public class Validation {
 			input = input.replace('|', '-');
 			input = input.replace('$', '-');
 			input = input.replace('<', '-');
-			input = input.replace('>', '-');
+			input = input.replace('>', '-');*/
 			return input;
 		} else{
 			return null;
