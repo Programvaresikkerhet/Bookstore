@@ -32,7 +32,7 @@ public class BookDAO {
             
             if (resultSet.next()) {
                 AuthorDAO authorDAO = new AuthorDAO(); // TODO:
-                
+                ReviewDAO reviewDAO = new ReviewDAO();
                 book = new Book();
                 book.setId(resultSet.getInt("book.id"));
                 book.setTitle(new Title(resultSet.getInt("title.id"), resultSet.getString("title.name")));
@@ -45,7 +45,8 @@ public class BookDAO {
                 book.setDescription(resultSet.getString("book.description"));
                 book.setAuthor(authorDAO.findByBookID(resultSet.getInt("book.id")));
                 book.setPrice(resultSet.getFloat("book.price"));
-                // TODO: Reviews, Categories
+                book.setAverageRate(getRateForBook(resultSet.getInt("book.id")));
+                book.setReviews(reviewDAO.getReviewsForBook(book));
             }
         } catch (SQLException exception) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, exception);
@@ -54,5 +55,80 @@ public class BookDAO {
         }
         
         return book;
+    }
+    public float getRateForBook(int bookId) {
+    	float rate;
+    	    	
+    	Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+    	
+        try {
+            connection = Database.getConnection();
+            
+            String query = "SELECT ifnull(AVG(rate),0) FROM ratebook_x_customer WHERE book_id=?";
+             
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, bookId);
+            
+            resultSet = statement.executeQuery();
+            
+           
+            if (resultSet.next()) {
+                rate = resultSet.getFloat("ifnull(AVG(rate),0)");
+                
+                rate =  (float) (Math.round(rate*100.0)/100.0);
+            	return rate;
+            }
+        } catch (SQLException exception) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, exception);
+        } finally {
+            Database.close(connection, statement, resultSet);
+        }
+        return 0;
+    }
+    
+    public boolean RateBook(int customerId, int bookId, int rate) {
+    	
+    	Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+    	
+        try {
+            connection = Database.getConnection();
+            
+            String query = "UPDATE ratebook_x_customer SET rate=? WHERE book_id=? AND customer_id=?";
+            
+            statement = connection.prepareStatement(query);
+            
+            statement.setInt(1, rate);
+            statement.setInt(2, bookId);
+            statement.setInt(3, customerId);
+
+            if (statement.executeUpdate() > 0) {
+                return true;
+            } else {
+            	
+            	query = "INSERT INTO ratebook_x_customer (book_id, customer_id, rate) VALUES (?, ?, ?)";
+                
+            	
+            	statement.close();
+            	
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, customerId);
+                statement.setInt(2, bookId);
+                statement.setInt(3, rate);
+
+                if (statement.executeUpdate() > 0) {
+                    return true;
+                }
+            }
+            
+        } catch (SQLException exception) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, exception);
+        } finally {
+            Database.close(connection, statement, resultSet);
+        }
+        return false;
     }
 }

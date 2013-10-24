@@ -56,8 +56,64 @@
                     <c:otherwise>
 	                    <p>Login to add book to booklist</p>
                     </c:otherwise>
-               </c:choose> 
+               </c:choose>
+               
+               
+               
+               <div>
+	            	<form action="rateBook.do" method="post">
+	            		<input type="hidden" name="id" value="${book.id}" />
+	            		<input type="hidden" name="isbn" value="${book.isbn13}" />
+		            	<input name = "rate" type = "radio" value = "1"/>
+		            	<input name = "rate" type = "radio" value = "2"/>
+		            	<input name = "rate" type = "radio" value = "3"/>
+		            	<input name = "rate" type = "radio" value = "4"/>
+		            	<input name = "rate" type = "radio" value = "5"/>
+		            	
+		            	<input type="submit" value="Rate!" />
+		            	<label>(Average ${book.averageRate})</label>
+	          		</form>
+            	</div>
+            	
+            <br>
+            <hr>
+            <br>
+               
+            <div>
+            	<form action="addReview.do" method="post">
+            		<input type="hidden" name="id" value="${book.id}" />
+            		<input type="hidden" name="isbn" value="${book.isbn13}" />
+            		<input type="text" name="review_text" maxlength="1000">
+            		<br />
+            		<input type="submit" value="Add review" />
+            	</form>
+            </div>
+            
+            
+            <c:choose>
+            <c:when test="${empty book.reviews}">
+            	<p>Non reviews yet!</p>
+            </c:when>
+            <c:otherwise>
+	            <c:forEach var="reviewItem" items="${book.reviews}">
+	                <form action="rateReview.do" method="post">
+	                	<input type="hidden" name="id" value="${reviewItem.id}" />
+	                	<input type="hidden" name="isbn" value="${book.isbn13}" />
+	                	${reviewItem.reviewDate}  ${reviewItem.reviewText}
+	                	
+	                	
+		                <input type="submit" name = "likes" class="thumbsUp" value = "" />
+		                <label> (${reviewItem.likes}) </label>  
+	                	
+		                <input type="submit" name = "dislikes" class="thumbsDown" value = "" />
+		                <label> (${reviewItem.dislikes}) </label>  
+		            </form>
+	            </c:forEach>
+	         </c:otherwise>
+	         </c:choose>  
+	            
         </c:otherwise>
     </c:choose>
+<br>
 </div>
 

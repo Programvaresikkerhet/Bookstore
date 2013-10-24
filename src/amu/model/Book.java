@@ -7,6 +7,7 @@ public class Book implements Serializable {
     private int id;
     private Title title;
     private Publisher publisher;
+    private List<Review> reviews;
     private List<Author> author;
     private String published; 
     private int edition;
@@ -15,6 +16,7 @@ public class Book implements Serializable {
     private String isbn13;
     private String description;
     private float price; 
+    private float averageRate;
 
     public int getId() {
         return id;
@@ -102,5 +104,19 @@ public class Book implements Serializable {
 
     public void setEdition(int edition) {
         this.edition = edition;
+    }
+    public float getAverageRate() {
+        return averageRate;
+    }
+
+    public void setAverageRate(float averageRate) {
+        this.averageRate = averageRate;
+    }
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }

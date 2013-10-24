@@ -58,3 +58,21 @@ textarea{
     font-family: sans-serif;
     float:right;
 }
+
+.thumbsUp{
+    background: url('../img/thumbsup.png') no-repeat;
+	border: none;
+	padding: 0;
+	cursor:hand;
+	width: 16px;
+	height: 16px;
+}
+
+.thumbsDown{
+    background: url('../img/thumbsdown.png') no-repeat;
+	border: none;
+	padding: 0;
+	cursor:hand;
+	width: 16px;
+	height: 16px;
+}
