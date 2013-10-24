@@ -3,11 +3,13 @@ package amu.database;
 import amu.Config;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -40,7 +42,7 @@ public final class Database {
         }
     }
 
-    public static void close(Statement statement) {
+    public static void close(PreparedStatement statement) {
         if (statement != null) {
             try {
                 statement.close();
@@ -60,13 +62,13 @@ public final class Database {
         }
     }
 
-    public static void close(Connection connection, Statement statement, ResultSet resultSet) {
+    public static void close(Connection connection, PreparedStatement statement, ResultSet resultSet) {
         close(resultSet);
         close(statement);
         close(connection);
     }
     
-    public static void close(Connection connection, Statement statement) {
+    public static void close(Connection connection, PreparedStatement statement) {
         close(statement);
         close(connection);
     }
