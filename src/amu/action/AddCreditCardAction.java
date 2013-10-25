@@ -33,6 +33,11 @@ class AddCreditCardAction implements Action {
             Map<String, String> messages = new HashMap<String, String>();
             request.setAttribute("messages", messages);
             
+            if(!Validation.validateInt(request.getParameter("expiryYear")) || !Validation.validateInt(request.getParameter("expiryMonth"))){
+            	messages.put("error", "An error occurred.");
+            	return new ActionResponse(ActionResponseType.FORWARD, "addCreditCard");
+            }
+            
             Calendar expiryDate = Calendar.getInstance();
             expiryDate.set(Integer.parseInt(request.getParameter("expiryYear")), Integer.parseInt(request.getParameter("expiryMonth")), 1);
             

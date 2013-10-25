@@ -42,6 +42,11 @@ class AddRateAction implements Action {
         {            
         	BookDAO bookDAO = new BookDAO();
         	
+        	if(!Validation.validateInt(request.getParameter("rate"))){
+        		messages.add("An error occurred.");
+        		return new ActionResponse(ActionResponseType.FORWARD, "viewBook");
+        	}
+        	
         	int rating = Integer.parseInt(request.getParameter("rate"));
         	
         	if(Validation.validateRating(rating)){

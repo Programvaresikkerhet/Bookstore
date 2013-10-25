@@ -6,6 +6,7 @@ import amu.database.BookDAO;
 import amu.model.Book;
 import amu.model.Cart;
 import amu.model.CartItem;
+import amu.model.Validation;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +35,11 @@ class AddToCartAction implements Action {
             
             ArrayList<String> messages = new ArrayList<String>();
             session.setAttribute("messages", messages);
+            
+            if(!Validation.validateInt(request.getParameter("quantity"))){
+            	messages.add("An error occurred.");
+            	return new ActionResponse(ActionResponseType.FORWARD, "viewBook");
+            }
             
             //We don't want to add negative quantities to our cart!
             int quantity = Integer.parseInt(request.getParameter("quantity"));

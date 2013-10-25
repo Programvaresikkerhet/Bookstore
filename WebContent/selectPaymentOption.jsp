@@ -12,6 +12,13 @@
                 <div>Expiry date: <fmt:formatDate value="${creditCard.expiryDate.time}" type="date" dateStyle="short" /></div>
                 <div>Cardholder's name: ${creditCard.cardholderName}</div>
             </div>
+            
+            <c:if test="${not empty messages}">
+                <c:forEach var="message" items="${messages}">
+          			<div><span class="error">${message}</span></div>
+          		</c:forEach>
+     		</c:if>
+            
             <div>
                 <label for="cardSecurityCode">Card security code: </label>
                 <input id="cardSecurityCode" name="cardSecurityCode" type="text" />

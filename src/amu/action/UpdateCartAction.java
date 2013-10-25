@@ -6,6 +6,7 @@ import amu.database.BookDAO;
 import amu.model.Book;
 import amu.model.Cart;
 import amu.model.CartItem;
+import amu.model.Validation;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,9 +36,20 @@ class UpdateCartAction implements Action {
             	
                 CartItem item = cart.getItemByISBN(isbn[i]);
                 
+                if(!Validation.validateInt(request.getParameter(quantity[i]))){
+                	messages.add("An error occurred.");
+                	return new ActionResponse(ActionResponseType.REDIRECT, "viewCart");
+                }
+                
                 if (item == null) {
                     BookDAO bookDAO = new BookDAO();
                     Book book = bookDAO.findByISBN(isbn[i]);
+                    
+                    if(!Validation.validateInt(request.getParameter("quantity"))){
+                    	messages.add("An error occurred.");
+                    	return new ActionResponse(ActionResponseType.REDIRECT, "viewCart");
+                    }
+                    
                     int _quantity = Integer.parseInt(request.getParameter("quantity"));
                     if(_quantity < 0){
                     	messages.add("Quantity cannot be negative.");

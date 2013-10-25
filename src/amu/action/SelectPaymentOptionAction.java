@@ -4,7 +4,11 @@ import amu.database.CreditCardDAO;
 import amu.model.Cart;
 import amu.model.CreditCard;
 import amu.model.Customer;
+import amu.model.Validation;
+
+import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,6 +21,9 @@ class SelectPaymentOptionAction implements Action {
         HttpSession session = request.getSession();
         Cart cart = (Cart) session.getAttribute("cart");
         Customer customer = (Customer) session.getAttribute("customer");
+        
+        ArrayList<String> messages = new ArrayList<String>();
+        request.setAttribute("messages",  messages);
 
         if (cart == null) {
             return new ActionResponse(ActionResponseType.REDIRECT, "viewCart");
@@ -36,6 +43,12 @@ class SelectPaymentOptionAction implements Action {
         
         // Handle credit card selection submission
         if (request.getMethod().equals("POST")) {
+        	
+        	if(!Validation.validateInt(request.getParameter("creditCardID"))){
+        		messages.add("An error occurred.");
+        		return new ActionResponse(ActionResponseType.FORWARD, "selectPaymentOption");
+        	}
+        	
             cart.setCreditCard(creditCardDAO.read(Integer.parseInt(request.getParameter("creditCardID"))));
             return new ActionResponse(ActionResponseType.REDIRECT, "reviewOrder");
         }

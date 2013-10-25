@@ -111,4 +111,14 @@ public class Validation {
 	public static boolean validateRating(int rating){
 		return (rating <= 5 && rating >= 1);
 	}
+	
+	//Integer validation
+	public static boolean validateInt(String input){
+		try{
+			Integer.parseInt(input);
+			return true;
+		} catch (NumberFormatException e){
+			return false;
+		}
+	}
 }
