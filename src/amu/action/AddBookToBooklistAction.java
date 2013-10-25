@@ -34,7 +34,7 @@ public class AddBookToBooklistAction implements Action {
 		       
 		    if(alreadyInCustomersBooklist){
 		       	//The booklist is already in b
-		       	messages.add("You have this book in this booklist!");
+		       	messages.add("You already have this book in this booklist!");
 		    }
 		    else{
 		      	//The book is not added to the booklist

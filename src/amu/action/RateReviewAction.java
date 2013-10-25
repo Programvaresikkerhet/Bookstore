@@ -22,12 +22,6 @@ class RateReviewAction implements Action {
             actionResponse.addParameter("from", "viewBook");
             return actionResponse;
         }
-		
-        System.out.println(request.getParameter("id"));
-        System.out.println(request.getParameter("likes"));
-        System.out.println("blablabla");
-        System.out.println(request.getParameter("dislikes"));
-        System.out.println(request.getParameter("isbn"));
         
         if (request.getParameter("id") != null && request.getParameter("isbn") != null)
         {
