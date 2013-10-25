@@ -93,4 +93,10 @@ public class Validation {
 			return null;
 		}
 	}
+	//End: Validation for all input
+	
+	//Start: String-length validation
+	public static boolean validateStringLength(String input, int length){
+		return input.length() <= length;
+	}
 }
