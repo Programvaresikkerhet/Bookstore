@@ -62,7 +62,7 @@ textarea{
 
 
 .thumbsUp{
-    background: url('../img/ThumbsUp.png') no-repeat;
+    background: url('img/thumbsup.png') no-repeat;
 	border: none;
 	padding: 0;
 	cursor:hand;
@@ -71,7 +71,7 @@ textarea{
 }
 
 .thumbsDown{
-    background: url('../img/ThumbsDown.png') no-repeat;
+    background: url('img/thumbsdown.png') no-repeat;
 	border: none;
 	padding: 0;
 	cursor:hand;

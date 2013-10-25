@@ -4,13 +4,7 @@
         <c:when test="${empty cart.items}">
             <div>No items in shopping cart.</div>
         </c:when>
-        
-        <c:if test="${not empty messages}">
-            <c:forEach var="message" items="${messages}">
-            	<div><span class="error">${message}</span></div>
-            </c:forEach>
-        </c:if>
-        
+     
         <c:otherwise>
             <form action="updateCart.do" method="post">
                 <c:forEach items="${cart.items}" var="item">

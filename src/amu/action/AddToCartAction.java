@@ -26,7 +26,9 @@ class AddToCartAction implements Action {
         }
         
         if (request.getParameter("isbn") != null && request.getParameter("quantity") != null)
-        {
+        {	
+        	
+        	System.out.println("INNE HVOR MESSAGES SETTES FOR ADD BOOK!!!");
             BookDAO bookDAO = new BookDAO();
             Book book = bookDAO.findByISBN(request.getParameter("isbn"));
             
