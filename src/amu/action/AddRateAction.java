@@ -34,8 +34,8 @@ class AddRateAction implements Action {
         
         if (request.getParameter("id") != null && request.getParameter("rate") != null && 
         									      request.getParameter("isbn") != null)
-        {
-            BookDAO bookDAO = new BookDAO();
+        {            
+        	BookDAO bookDAO = new BookDAO();
  
 	        boolean result = bookDAO.RateBook(customer.getId(), Integer.parseInt(request.getParameter("id")),
 	        		 		 Integer.parseInt(request.getParameter("rate")));
@@ -43,7 +43,6 @@ class AddRateAction implements Action {
 	        Book book = bookDAO.findByISBN(request.getParameter("isbn"));
 	        if (result) {
 	            request.setAttribute("book", book);
-	             
 	        }
         }
          

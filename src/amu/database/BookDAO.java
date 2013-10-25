@@ -31,7 +31,7 @@ public class BookDAO {
             Logger.getLogger(this.getClass().getName()).log(Level.FINE, "findByISBN SQL Query: " + query);
             
             if (resultSet.next()) {
-                AuthorDAO authorDAO = new AuthorDAO(); // TODO:
+                AuthorDAO authorDAO = new AuthorDAO(); 
                 ReviewDAO reviewDAO = new ReviewDAO();
                 book = new Book();
                 book.setId(resultSet.getInt("book.id"));
@@ -115,8 +115,8 @@ public class BookDAO {
             	statement.close();
             	
                 statement = connection.prepareStatement(query);
-                statement.setInt(1, customerId);
-                statement.setInt(2, bookId);
+                statement.setInt(1, bookId);
+                statement.setInt(2, customerId);
                 statement.setInt(3, rate);
 
                 if (statement.executeUpdate() > 0) {
@@ -131,4 +131,38 @@ public class BookDAO {
         }
         return false;
     }
+    public boolean bookInBooklist(int bookId, int booklistId) {
+     	    	
+    	Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+    	
+        try {
+            connection = Database.getConnection();
+            //book_id, list_id
+            String query = "SELECT * FROM book_x_list WHERE book_id = ? AND list_id = ?";
+             
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, bookId);
+            statement.setInt(2, booklistId);
+            
+            resultSet = statement.executeQuery();
+           
+            if (resultSet.next()) {
+                return true;
+            }
+            else{
+            	return false;
+            }
+            
+        } catch (SQLException exception) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, exception);
+        } finally {
+            Database.close(connection, statement, resultSet);
+        }
+        
+        return false;
+    }
+    
+    
 }

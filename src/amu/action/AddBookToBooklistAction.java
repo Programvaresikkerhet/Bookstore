@@ -1,6 +1,8 @@
 package amu.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,26 +18,32 @@ public class AddBookToBooklistAction implements Action {
 
 	@Override
 	public ActionResponse execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionResponse actionResponse = new ActionResponse(ActionResponseType.REDIRECT, "viewBook");
+		ActionResponse actionResponse = new ActionResponse(ActionResponseType.FORWARD, "viewBook");
 		HttpSession session = request.getSession(true);
-		Customer customer = (Customer)session.getAttribute("customer");
-	
-		System.out.println("SelectedBooklist:" + request.getParameter("selectedBooklist"));
-		
+		Customer customer = (Customer)session.getAttribute("customer");		
 		
 		if(request.getParameter("selectedBooklist") != null && customer != null){
-			//Map<String, String> messages = new HashMap<String, String>();
-            //request.setAttribute("messages", messages);
-			
+			List<String> messages = new ArrayList<String>();
+            
 			BookDAO bookDAO = new BookDAO();
 	        Book book = bookDAO.findByISBN(request.getParameter("isbn"));
-	        
-	        System.out.println("BookId:" + book.getId());
 			
-	        BooklistDAO booklistDAO = new BooklistDAO();
-	        booklistDAO.addBookToList(book.getId(), Integer.parseInt(request.getParameter("selectedBooklist")));
-			
-	        //messages.put("added", "The book was added to your booklist!");
+		    BooklistDAO booklistDAO = new BooklistDAO();
+		    boolean alreadyInCustomersBooklist = bookDAO.bookInBooklist(book.getId(), 
+		      		Integer.parseInt(request.getParameter("selectedBooklist")));
+		       
+		    if(alreadyInCustomersBooklist){
+		       	//The booklist is already in b
+		       	messages.add("You have this book in this booklist!");
+		    }
+		    else{
+		      	//The book is not added to the booklist
+		      	booklistDAO.addBookToList(book.getId(), Integer.parseInt(request.getParameter("selectedBooklist")));
+		       	messages.add("The book was added to the booklist!");
+		    }
+	   
+	        request.setAttribute("book", book);
+	        request.setAttribute("messages", messages);
 		}
 
 		
