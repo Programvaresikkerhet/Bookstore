@@ -80,7 +80,7 @@ public class Validation {
 	}
 	//End: Validation for RegisterCustomer
 	
-	//Start: Validation for all input
+	//Validation for all input
 	public static String sanitizeInput(String input){
 		if(input != null){
 			input = input.replace('&', ' ');
@@ -101,10 +101,14 @@ public class Validation {
 			return null;
 		}
 	}
-	//End: Validation for all input
 	
-	//Start: String-length validation
+	//String-length validation
 	public static boolean validateStringLength(String input, int length){
 		return input.length() <= length;
+	}
+	
+	//Validate rating
+	public static boolean validateRating(int rating){
+		return true;
 	}
 }

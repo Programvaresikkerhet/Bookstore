@@ -13,17 +13,17 @@
 	    	 </ul>
 	    	</form>
 	    	
+	    	<c:if test="${not empty messages}">
+           		<c:forEach var="message" items="${messages}">
+            		<div><span class="error">${message}</span></div>
+           		</c:forEach>
+        	</c:if>
+	    	
 	    	<br>
 	    	<hr>
 	    	<br>
 	    </c:otherwise>
 	    </c:choose>
-	    
-	    <c:if test="${not empty messages}">
-            <c:forEach var="message" items="${messages}">
-            	<div><span class="error">${message}</span></div>
-            </c:forEach>
-        </c:if>
         
 	    <c:choose>	
 	    <c:when test="${not empty customer}">	
