@@ -41,7 +41,7 @@ class AddCreditCardAction implements Action {
                     customer, 
                     request.getParameter("creditCardNumber"), 
                     expiryDate,
-                    request.getParameter("cardholderName"));
+                    Validation.sanitizeInput(request.getParameter("cardholderName")));
             
 
             Map<String, String> values = new HashMap<String, String>();

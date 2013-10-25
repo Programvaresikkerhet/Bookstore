@@ -36,23 +36,31 @@ class AddAddressAction implements Action {
 
         // Non-idempotent add address request
         if (request.getMethod().equals("POST")) {
+        	String addr = request.getParameter("address");
+        	
             List<String> messages = new ArrayList<String>();
             request.setAttribute("messages", messages);
+            
+            if(Validation.validateStringLength(addr, 255)){
 
-            AddressDAO addressDAO = new AddressDAO();
-            Address address = new Address(customer, Validation.sanitizeInput(request.getParameter("address")));
-
-            if (addressDAO.add(address)) {
-                if (ActionFactory.hasKey(request.getParameter("from"))) {
-                    return new ActionResponse(ActionResponseType.REDIRECT, request.getParameter("from"));
-                } else {
-                    // Return to viewCustomer from addAddress by default
-                    return new ActionResponse(ActionResponseType.REDIRECT, "viewCustomer");
-                }
+	            AddressDAO addressDAO = new AddressDAO();
+	            Address address = new Address(customer, Validation.sanitizeInput(addr));
+	
+	            if (addressDAO.add(address)) {
+	                if (ActionFactory.hasKey(request.getParameter("from"))) {
+	                    return new ActionResponse(ActionResponseType.REDIRECT, request.getParameter("from"));
+	                } else {
+	                    // Return to viewCustomer from addAddress by default
+	                    return new ActionResponse(ActionResponseType.REDIRECT, "viewCustomer");
+	                }
+	            }
+            } else{
+            	messages.add("Address too long.");
+            	return new ActionResponse(ActionResponseType.FORWARD, "addAddress");
             }
 
             messages.add("An error occurred.");
-            request.setAttribute("address", address);
+            request.setAttribute("address", new Address(customer, Validation.sanitizeInput(addr)));
         }
 
         // (request.getMethod().equals("GET")) 

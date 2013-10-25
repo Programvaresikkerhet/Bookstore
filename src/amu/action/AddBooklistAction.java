@@ -18,8 +18,8 @@ public class AddBooklistAction implements Action{
         Customer customer = (Customer) session.getAttribute("customer");		
         ActionResponse actionResponse = null;
         
-        ArrayList<String> messages = new ArrayList<String>();
-        request.setAttribute("messages",  messages);
+        ArrayList<String> rateMessages = new ArrayList<String>();
+        request.setAttribute("rateMessages",  rateMessages);
 
     	String title = Validation.sanitizeInput(request.getParameter("booklistTitle"));
     	String description = Validation.sanitizeInput(request.getParameter("booklistDescription"));
@@ -40,11 +40,11 @@ public class AddBooklistAction implements Action{
 		        	
 		        	System.out.println("Title: " + title + " Description: " + description);
         		} else{
-        			messages.add("Description can contain a maximum of 100 characters.");
+        			rateMessages.add("Description can contain a maximum of 100 characters.");
         			return new ActionResponse(ActionResponseType.FORWARD, "viewBooklists");
         		}
         	} else{
-        		messages.add("Title can contain a maximum of 50 characters.");
+        		rateMessages.add("Title can contain a maximum of 50 characters.");
         		return new ActionResponse(ActionResponseType.FORWARD, "viewBooklists");
         	}
         	
