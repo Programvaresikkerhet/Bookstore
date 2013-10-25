@@ -25,19 +25,24 @@ class ChangeNameAction implements Action {
         }
 
         if (request.getMethod().equals("POST")) {
-
             Map<String, String> messages = new HashMap<String, String>();
             request.setAttribute("messages", messages);
-
-            customer.setName(Validation.sanitizeInput(request.getParameter("name")));
-
-            CustomerDAO customerDAO = new CustomerDAO();
-            if (customerDAO.edit(customer)) { // Customer name was successfully changed
-                return new ActionResponse(ActionResponseType.REDIRECT, "viewCustomer");
-            } else {
-                messages.put("name", "Something went wrong here.");
-                return new ActionResponse(ActionResponseType.FORWARD, "changeName");
-            }
+	            
+            if(Validation.validateStringLength(request.getParameter("name"), 255)){
+	            
+	            customer.setName(Validation.sanitizeInput(request.getParameter("name")));
+	            
+	            CustomerDAO customerDAO = new CustomerDAO();
+	            if (customerDAO.edit(customer)) { // Customer name was successfully changed
+	                return new ActionResponse(ActionResponseType.REDIRECT, "viewCustomer");
+	            } else {
+	                messages.put("name", "Something went wrong here.");
+	                return new ActionResponse(ActionResponseType.FORWARD, "changeName");
+	            }
+        	} else{
+        		messages.put("name", "Name is too long.");
+        		return new ActionResponse(ActionResponseType.FORWARD, "changeName");
+        	}
         }
 
         // (request.getMethod().equals("GET")) {
