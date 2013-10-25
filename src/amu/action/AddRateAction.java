@@ -1,6 +1,7 @@
 package amu.action;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import amu.database.AddressDAO;
@@ -11,6 +12,7 @@ import amu.database.ReviewDAO;
 import amu.model.Address;
 import amu.model.Book;
 import amu.model.Customer;
+import amu.model.Validation;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +23,9 @@ class AddRateAction implements Action {
     public ActionResponse execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession(true);
         Customer customer = (Customer) session.getAttribute("customer");
+        
+        ArrayList<String> messages = new ArrayList<String>();
+        request.setAttribute("messages", messages);
         
         if (customer == null) {
         	
@@ -36,14 +41,22 @@ class AddRateAction implements Action {
         									      request.getParameter("isbn") != null)
         {            
         	BookDAO bookDAO = new BookDAO();
+        	
+        	int rating = Integer.parseInt(request.getParameter("rate"));
+        	
+        	if(Validation.validateRating(rating)){
  
-	        boolean result = bookDAO.RateBook(customer.getId(), Integer.parseInt(request.getParameter("id")),
-	        		 		 Integer.parseInt(request.getParameter("rate")));
-	        
-	        Book book = bookDAO.findByISBN(request.getParameter("isbn"));
-	        if (result) {
-	            request.setAttribute("book", book);
-	        }
+		        boolean result = bookDAO.RateBook(customer.getId(), Integer.parseInt(request.getParameter("id")),
+		        		 		 rating);
+		        
+		        Book book = bookDAO.findByISBN(request.getParameter("isbn"));
+		        if (result) {
+		            request.setAttribute("book", book);
+		        }
+        	} else{
+        		messages.add("An error occurred while trying to add rating.");
+        		return new ActionResponse(ActionResponseType.FORWARD, "viewBook");
+        	}
         }
          
         return new ActionResponse(ActionResponseType.FORWARD, "viewBook");

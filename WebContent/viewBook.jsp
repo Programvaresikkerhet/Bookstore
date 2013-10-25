@@ -35,8 +35,8 @@
                 <input type="submit" value="Add to cart" />
             </form>
                 
-            <c:if test="${not empty messages}">
-           	    <c:forEach var="message" items="${messages}">
+            <c:if test="${not empty rateMessages}">
+           	    <c:forEach var="message" items="${rateMessages}">
             		<div><span class="error">${message}</span></div>
             	</c:forEach>
        		 </c:if>
@@ -53,6 +53,12 @@
 					<input type="submit" value="Add to booklist"/>              
 		        </form>
             </c:if>     
+            
+            <c:if test="${not empty messages}">
+           	    <c:forEach var="message" items="${messages}">
+            		<div><span class="error">${message}</span></div>
+            	</c:forEach>
+       		</c:if>
                
    	        <div>
 		        <form action="rateBook.do" method="post">

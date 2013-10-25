@@ -109,6 +109,6 @@ public class Validation {
 	
 	//Validate rating
 	public static boolean validateRating(int rating){
-		return true;
+		return (rating <= 5 && rating >= 1);
 	}
 }
