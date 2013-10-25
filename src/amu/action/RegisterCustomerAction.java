@@ -43,7 +43,7 @@ class RegisterCustomerAction extends HttpServlet implements Action {
             		}
 	                
 	                customer.setEmail(email);
-	                customer.setName(name);
+	                customer.setName(Validation.sanitizeInput(name));
 	                customer.setActivationToken(CustomerDAO.generateActivationCode());
 	                customer = customerDAO.register(customer);
 	                
