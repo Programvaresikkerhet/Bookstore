@@ -2,8 +2,11 @@ package amu.action;
 
 import amu.database.CustomerDAO;
 import amu.model.Customer;
+import amu.model.Validation;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -26,8 +29,13 @@ class ChangePasswordAction implements Action {
             request.setAttribute("messages", messages);
 
             String[] password = request.getParameterValues("password");
+            
+            if(Validation.validatePassword(password[0]) == false){
+            	messages.add(Validation.getIssues());
+            	return new ActionResponse(ActionResponseType.FORWARD, "changePassword");
+            }
 
-            // Validate that new email is typed in the same both times
+            // Validate that new password is typed in the same both times
             if (password[0].equals(password[1]) == false) {
                 messages.add("Password and repeated password did not match. Please try again.");
                 return new ActionResponse(ActionResponseType.FORWARD, "changePassword");
@@ -41,7 +49,7 @@ class ChangePasswordAction implements Action {
                 return new ActionResponse(ActionResponseType.FORWARD, "changePassword");
             }
             
-            // Email change successful, return to viewCustomer
+            // Password change successful, return to viewCustomer
             return new ActionResponse(ActionResponseType.REDIRECT, "viewCustomer");
 
         } 
