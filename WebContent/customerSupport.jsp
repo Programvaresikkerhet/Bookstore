@@ -12,6 +12,13 @@
                         </select>
                     </td>
                 </tr>
+                
+                <c:if test="${not empty messages}">
+               		<c:forEach var="message" items="${messages}">
+           				<div><span class="error">${message}</span></div>
+           			</c:forEach>
+       			</c:if>
+                
                 <tr>
                     <td>Subject</td>
                     <td><input name="subject" type="text"></input></td>

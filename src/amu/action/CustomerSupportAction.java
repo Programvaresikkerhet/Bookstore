@@ -1,5 +1,7 @@
 package amu.action;
 
+import java.util.ArrayList;
+
 import amu.Config;
 import amu.Mailer;
 import amu.model.Customer;
@@ -23,11 +25,19 @@ class CustomerSupportAction implements Action {
         }
 
         if (request.getMethod().equals("POST")) {
+        	
+        	ArrayList<String> messages = new ArrayList<String>();
+        	request.setAttribute("messages",  messages);
             
             String subject = Validation.sanitizeInput(request.getParameter("subject"));
             String content = Validation.sanitizeInput(request.getParameter("content"));
             String fromAddr = Validation.sanitizeInput(request.getParameter("fromAddr"));
             String fromName = Validation.sanitizeInput(request.getParameter("fromName"));
+            
+            if(!Validation.validateStringLength(subject, 255)){
+            	messages.add("Subject too long.");
+            	return new ActionResponse(ActionResponseType.FORWARD, "customerSupport");
+            }
             
             Mailer.send(Config.EMAIL_FROM_ADDR, subject, content, fromAddr, fromName);
             // TODO: Send receipt to customer
