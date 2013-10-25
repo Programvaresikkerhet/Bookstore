@@ -37,6 +37,7 @@ textarea{
     width: 80%;
     max-width: 350px;
     min-width: 100px;
+
 }
 .container{
     width: 80%;
@@ -59,8 +60,9 @@ textarea{
     float:right;
 }
 
+
 .thumbsUp{
-    background: url('../img/thumbsup.png') no-repeat;
+    background: url('../img/ThumbsUp.png') no-repeat;
 	border: none;
 	padding: 0;
 	cursor:hand;
@@ -69,7 +71,7 @@ textarea{
 }
 
 .thumbsDown{
-    background: url('../img/thumbsdown.png') no-repeat;
+    background: url('../img/ThumbsDown.png') no-repeat;
 	border: none;
 	padding: 0;
 	cursor:hand;

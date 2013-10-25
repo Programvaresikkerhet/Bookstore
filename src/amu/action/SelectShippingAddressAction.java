@@ -32,7 +32,7 @@ class SelectShippingAddressAction implements Action {
         
         // Handle shipping address selection submission
         if (request.getParameter("id") != null) {
-            cart.setShippingAddress(addressDAO.read(Integer.parseInt(request.getParameter("id"))));
+            cart.setShippingAddress(addressDAO.read(Integer.parseInt(request.getParameter("id")),customer));
             return new ActionResponse(ActionResponseType.REDIRECT, "selectPaymentOption");
         }
         

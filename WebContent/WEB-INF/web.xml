@@ -16,14 +16,14 @@
             30
         </session-timeout>
         
-		<cookie-config>
+		<!-- <cookie-config>
 			<http-only>true</http-only>
 			<secure>true</secure>
 		</cookie-config>
 		
 		<tracking-mode>
        		COOKIE
-       	</tracking-mode>
+       	</tracking-mode> -->
 		
     </session-config>
     <jsp-config>

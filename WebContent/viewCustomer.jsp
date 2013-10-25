@@ -46,6 +46,11 @@
                 <div>Date: <fmt:formatDate value="${order.createdDate.time}" type="date" dateStyle="short" /></div>
                 <div>Value: ${order.value}</div>
                 <div>Status: ${order.statusText}</div>
+                               
+                <c:if test="${order.status==0}"> <a href='editOrder.do?id=${order.id}'>Edit order</a> </c:if>
+           		<c:if test="${order.status==0}"> <a href='cancelOrder.do?id=${order.id}'>Cancel order</a> </c:if>
+           		
+           		<br /> <br /> 
             </div>
         </c:forEach>
     </div>
