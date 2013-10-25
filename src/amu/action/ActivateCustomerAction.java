@@ -1,5 +1,7 @@
 package amu.action;
 
+import java.util.ArrayList;
+
 import amu.database.CustomerDAO;
 import amu.model.Customer;
 import amu.model.Validation;
@@ -17,25 +19,37 @@ class ActivateCustomerAction implements Action {
     	String email = Validation.sanitizeInput(request.getParameter("email"));
     	String activationToken = Validation.sanitizeInput(request.getParameter("activationToken"));
     	
-        if (email != null && activationToken == null) {
-            request.setAttribute("email", request.getParameter("email"));
-        }
+    	ArrayList<String> messages = new ArrayList<String>();
+		request.setAttribute("messages", messages);
+    	
+    	if(Validation.validateStringLength(email, 255) && Validation.validateStringLength(activationToken, 255)){
 
-        // If both fields are set, then this is a non-idempotent activation request
-        if (email != null && activationToken != null) {
-            CustomerDAO customerDAO = new CustomerDAO();
-            Customer customer = customerDAO.findByEmail(request.getParameter("email"));
-
-            if (customer != null && customer.getActivationToken().equals(activationToken)) {
-                customer = customerDAO.activate(customer);
-                return new ActionResponse(ActionResponseType.REDIRECT, "activationSuccessful");
-            } else {
-                HttpSession session = request.getSession(true);
-                session.setAttribute("debugActivation", customer);
-                return new ActionResponse(ActionResponseType.REDIRECT, "activationError");
-            }
-        }
-        
-        return new ActionResponse(ActionResponseType.FORWARD, "activateCustomer");
+	        if (email != null && activationToken == null) {
+	            request.setAttribute("email", request.getParameter("email"));
+	        }
+	
+	        // If both fields are set, then this is a non-idempotent activation request
+	        if (email != null && activationToken != null) {
+	            CustomerDAO customerDAO = new CustomerDAO();
+	            Customer customer = customerDAO.findByEmail(request.getParameter("email"));
+	
+	            if (customer != null && customer.getActivationToken().equals(activationToken)) {
+	                customer = customerDAO.activate(customer);
+	                return new ActionResponse(ActionResponseType.REDIRECT, "activationSuccessful");
+	            } else {
+	                HttpSession session = request.getSession(true);
+	                session.setAttribute("debugActivation", customer);
+	                return new ActionResponse(ActionResponseType.REDIRECT, "activationError");
+	            }
+	        }
+	        
+	        return new ActionResponse(ActionResponseType.FORWARD, "activateCustomer");
+    	} else{
+    		
+    		messages.add("Activation token too long.");
+    		
+    		return new ActionResponse(ActionResponseType.FORWARD, "activateCustomer");
+    	}
+    	
     }
 }

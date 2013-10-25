@@ -3,12 +3,15 @@ package amu.action;
 import amu.database.CreditCardDAO;
 import amu.model.CreditCard;
 import amu.model.Customer;
+import amu.model.Validation;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -39,12 +42,13 @@ class AddCreditCardAction implements Action {
                     request.getParameter("creditCardNumber"), 
                     expiryDate,
                     request.getParameter("cardholderName"));
+            
 
             Map<String, String> values = new HashMap<String, String>();
             request.setAttribute("values", values);
             values.put("creditCardNumber", request.getParameter("creditCardNumber"));
             values.put("expiryDate", request.getParameter("expiry"));
-            values.put("cardholderName", request.getParameter("cardholderName"));
+            values.put("cardholderName", Validation.sanitizeInput(request.getParameter("cardholderName")));
             
             if (creditCardDAO.add(creditCard)) {
                 return new ActionResponse(ActionResponseType.REDIRECT, "viewCustomer");

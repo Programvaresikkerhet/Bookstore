@@ -35,9 +35,15 @@ class RegisterCustomerAction extends HttpServlet implements Action {
             			messages.add("Please enter a valid e-mail address.\n");
             			return new ActionResponse(ActionResponseType.FORWARD, "registerCustomer");
             		}
+            		
+            		String name = request.getParameter("name");
+            		if(!Validation.validateStringLength(name, 255)){
+            			messages.add("Name is too long.");
+            			return new ActionResponse(ActionResponseType.FORWARD, "registerCustomer");
+            		}
 	                
-	                customer.setEmail(request.getParameter("email"));
-	                customer.setName(request.getParameter("name"));
+	                customer.setEmail(email);
+	                customer.setName(name);
 	                customer.setActivationToken(CustomerDAO.generateActivationCode());
 	                customer = customerDAO.register(customer);
 	                

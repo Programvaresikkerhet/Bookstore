@@ -24,7 +24,11 @@ public class Validation {
 			isValid = false;
 		}
 		if(!hasDigit(password)){
-			issues += "Password must contain at least one digit.";
+			issues += "Password must contain at least one digit.\n";
+			isValid = false;
+		}
+		if(password.length() > 40){
+			issues += "Password must contain a maximum of 40 characters.";
 			isValid = false;
 		}
 		return isValid;
@@ -39,11 +43,15 @@ public class Validation {
 	
 	public static boolean validateEmail(String email){
 		boolean isValid = true;
-		try{
-			InternetAddress emailAddress = new InternetAddress(email);
-			emailAddress.validate();
-		} catch (AddressException e){
+		if(email.length() > 255){
 			isValid = false;
+		} else{
+			try{
+				InternetAddress emailAddress = new InternetAddress(email);
+				emailAddress.validate();
+			} catch (AddressException e){
+				isValid = false;
+			}
 		}
 		return isValid;
 		
