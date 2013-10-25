@@ -2,8 +2,11 @@ package amu.action;
 
 import amu.database.OrderDAO;
 import amu.model.Cart;
+import amu.model.CartItem;
 import amu.model.Customer;
 import amu.model.Order;
+import amu.model.OrderItem;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -32,7 +35,16 @@ class PlaceOrderAction implements Action {
         }
 
         OrderDAO orderDAO = new OrderDAO();
-        Order order = new Order(customer, cart.getShippingAddress(), cart.getSubtotal().toString());
+        Order order = new Order(customer.getId(), cart.getShippingAddress(), cart.getSubtotal().toString());
+        
+        for (CartItem item : cart.getItems().values()) {
+        	OrderItem orderItem = new OrderItem();
+        	orderItem.setBookId(item.getBook().getId());
+        	orderItem.setQuantity((byte)item.getQuantity());
+        	orderItem.setPrice(item.getBook().getPrice());
+
+        	order.addOrderItem(orderItem);
+        }
         
         if (orderDAO.add(order))
         {

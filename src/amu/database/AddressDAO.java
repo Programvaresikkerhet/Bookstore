@@ -41,15 +41,16 @@ public class AddressDAO {
         return addresses;
     }
 
-    public Address read(int id) {
+    public Address read(int id, Customer customer) {
         Address address = null;
 
         try {
             connection = Database.getConnection();
 
-            String query = "SELECT address FROM address WHERE id=?";
+            String query = "SELECT address FROM address WHERE id=? AND customer_id = ?";
             statement = connection.prepareStatement(query);
             statement.setInt(1, id);
+            statement.setInt(2, customer.getId());
 
             resultSet = statement.executeQuery();
 

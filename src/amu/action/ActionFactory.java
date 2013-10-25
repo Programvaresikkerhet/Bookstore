@@ -19,6 +19,7 @@ public class ActionFactory implements ServletContextListener {
         map.put("editAddress", new EditAddressAction());
         map.put("deleteAddress", new DeleteAddressAction());
         
+        
         // Book actions
         map.put("bookNotFound", new ForwardAction("bookNotFound"));
         map.put("viewBook", new ViewBookAction());
@@ -42,6 +43,12 @@ public class ActionFactory implements ServletContextListener {
         map.put("placeOrder", new PlaceOrderAction());
         map.put("placeOrderError", new ForwardAction("placeOrderError"));
         map.put("placeOrderSuccessful", new ForwardAction("placeOrderSuccessful"));
+        map.put("editOrder", new EditOrderAction());
+        map.put("saveOrder", new SaveOrderAction());
+        map.put("cancelOrder", new CancelOrderAction());
+        map.put("cancelOrderError", new ForwardAction("cancelOrderError"));
+        map.put("cancelOrderSuccessful", new ForwardAction("cancelOrderSuccessful"));
+        map.put("editOrderError", new ForwardAction("editOrderError"));
         
         // Credit card actions
         map.put("addCreditCard", new AddCreditCardAction());

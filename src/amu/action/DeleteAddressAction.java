@@ -37,7 +37,7 @@ class DeleteAddressAction implements Action {
         }
 
         // (request.getMethod().equals("GET")) 
-        address = addressDAO.read(Integer.parseInt(request.getParameter("id"))); 
+        address = addressDAO.read(Integer.parseInt(request.getParameter("id")), customer); 
         request.setAttribute("address", address);
         return new ActionResponse(ActionResponseType.FORWARD, "deleteAddress");
     }
