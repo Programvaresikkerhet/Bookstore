@@ -51,7 +51,7 @@ class AddAddressAction implements Action {
                 }
             }
 
-            messages.add("An error occured.");
+            messages.add("An error occurred.");
             request.setAttribute("address", address);
         }
 
